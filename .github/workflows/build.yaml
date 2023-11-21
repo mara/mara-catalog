@@ -1,0 +1,29 @@
+name: Build & Test
+
+on: [push, fork]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.9', '3.10', '3.11', '3.12']
+    steps:
+      - name: Chechout code
+        uses: actions/checkout@v4.1.1
+      - name: Setup python
+        uses: actions/setup-python@v4.7.1
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install and test application
+        env:
+          pythonversion: ${{ matrix.python-version }}
+        run: |
+          python -c "import sys; print(sys.version)"
+          pip install .[test]
+          echo Finished successful build with Python $pythonversion
+#      - name: Test with pytest
+#        run: |
+#          pytest -v tests -m "not postgres_db and not mssql_db"
+#          pytest -v tests -m postgres_db
+#          pytest -v tests -m mssql_db
