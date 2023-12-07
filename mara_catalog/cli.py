@@ -4,6 +4,9 @@ import sys
 
 import click
 
+from . import config
+from .connect import connect_catalog_mara_commands
+
 
 @click.group()
 def mara_catalog():
@@ -39,8 +42,6 @@ def connect(
     from mara_pipelines.commands.python import RunFunction
     import mara_pipelines.cli
     import mara_pipelines.config
-    from . import config
-    from .connect import connect_catalog_mara_commands
 
     # create pipeline
     pipeline = Pipeline(
@@ -49,7 +50,6 @@ def connect(
 
     def create_schema_if_not_exist(db_alias: str, schema_name: str) -> bool:
         import sqlalchemy
-        import sqlalchemy.sql
         import sqlalchemy.schema
         import mara_db.sqlalchemy_engine
 
