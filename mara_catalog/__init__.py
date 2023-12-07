@@ -7,4 +7,5 @@ def MARA_CONFIG_MODULES():
 
 
 def MARA_CLICK_COMMANDS():
-    return []
+    from . import cli
+    return [cli.mara_catalog]
