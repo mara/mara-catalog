@@ -56,7 +56,8 @@ def connect(
         eng = mara_db.sqlalchemy_engine.engine(db_alias)
 
         with eng.connect() as conn:
-            if eng.dialect.has_schema(connection=conn, schema_name=schema_name):
+            insp = sqlalchemy.inspect(eng)
+            if insp.has_schema(schema_name=schema_name, connection=conn):
                 print(f'Schema {schema_name} already exists')
             else:
                 create_schema = sqlalchemy.schema.CreateSchema(schema_name)
