@@ -131,8 +131,11 @@ def __(db: dbs.SnowflakeDB, table_format: formats.Format) -> Tuple[str, Dict[str
         raise NotImplementedError(f'The format {table_format} is not supported for SnowflakeDB')
 
 
-def connect_catalog_mara_commands(catalog: Union[str, StorageCatalog], db_alias: str,
-        or_replace: bool = False) -> Iterable[Union[Command, List[Command]]]:
+def connect_catalog_mara_commands(
+    catalog: Union[str, StorageCatalog],
+    db_alias: str,
+    or_replace: bool = False
+) -> Iterable[Command]:
     """
     Returns a list of commands which connects a table list as external storage.
 
@@ -210,12 +213,3 @@ def connect_catalog_mara_commands(catalog: Union[str, StorageCatalog], db_alias:
             format_name=format_name, or_replace=or_replace, options=format_options)
 
         yield ExecuteSQL(sql_statement, db_alias=db_alias)
-
-        #yield Task(
-        #    id=table_to_id(schema_name, table_name),
-        #    description=f"Connect table {schema_name}.{table_name} to db {db_alias}",
-        #    commands=[ExecuteSQL(sql_statement, db_alias=db_alias)])
-
-
-def table_to_id(schema_name, table_name) -> str:
-    return f'{schema_name}_{table_name}'.lower()
